@@ -1,5 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,53 +18,35 @@ charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<%
-	//Entre esses simbolos, podemos escrever Java
-String erro = null;
+<c:set var="erro" value="${null}" />
 
-//Checa se o usuario e senha estão corretos
-if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("submit") != null) {
-%>
-<jsp:useBean id="loginBean"
-	class="br.com.eberoliveira.webApp.bean.LoginBean">
-	<jsp:setProperty name="loginBean" property="*" />
-</jsp:useBean>
-<%
-	if (loginBean.isValid()) {
-	//Usuário validado. Mostrar mensgens de boas vindas
-	out.println("<h2> Bem vindo </h2>");
-	out.println("Login efetuado com Sucesso.");
-	return;
+<!..Pessoa clicou em entrar ..>
+<c:if
+	test="${\"POST\".equalsIgnoreCase(pageContext.request.method) && pageContext.request.getParameter(\"submit\") != null}">
 
-} else {
-	erro = "Usuário ou senha inválidos. Tente novamente";
-}
-%>
+	<!..Cria um objeto com usuário e senha ..>
+	<jsp:useBean id="loginBean"
+		class="br.com.eberoliveira.webApp.bean.LoginBean">
+		<jsp:setProperty name="loginBean" property="*" />
+	</jsp:useBean>
 
-<%
-	}
-%>
+	<!..Decisão ..>
+	<c:choose>
+		<c:when test="${!loginBean.isValid()}">
+			<c:set var="erro" value="Usuário ou Senha inválidos. Tente novamente" />
+		</c:when>
+		<c:otherwise>
+			<c:redirect url="/boas-vindas.jsp"></c:redirect>
+		</c:otherwise>
+	</c:choose>
 
-<%
-	if (erro != null) {
-%>
+</c:if>
 
-<span class="text-danger"> <%
- 	out.println(erro);
- %>
-</span>
-<%
-	}
-%>
 <body>
 	<form method="post" class="text-center">
 		<div>
-		<h2 class="jumbotron">Tela de Login</h2>
+			<h2 class="jumbotron">Login</h2>
 		</div>
-		
-		<p>
-			<b class="lead"">Acesso</b>
-		</p>
 
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
