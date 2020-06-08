@@ -3,11 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<c:import url="common/header.jsp"></c:import>
+<c:import url="common/header.jsp" />
 <body>
 	<div>
-	<h1 class="jumbotron">Seja bem vindo!</h1>
+		<h1 class="jumbotron">
+			Seja bem vindo,
+			<c:out value="${usuario}" />
+			!
+		</h1>
 	</div>
-<c:import url="common/footer.jsp"></c:import>
+	<c:import url="common/footer.jsp" />
 </body>
 </html>

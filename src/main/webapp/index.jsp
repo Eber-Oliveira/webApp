@@ -23,47 +23,62 @@
 	<!..Decisão ..>
 	<c:choose>
 		<c:when test="${!loginBean.isValid()}">
-			<c:set var="erro" value="Usuário ou Senha inválidos. Tente novamente." />
+			<c:set var="erro"
+				value="Usuário ou Senha inválidos. Tente novamente." />
 		</c:when>
 		<c:otherwise>
-			<c:redirect url="/boas-vindas.jsp"></c:redirect>
+			<c:set var="usuario" value="${loginBean.usuario}" scope="session" />
+			<c:redirect url="/boas-vindas.jsp" />
 		</c:otherwise>
 	</c:choose>
-
 </c:if>
 
 <body>
-	<div>
-		<h2 class="jumbotron">Login</h2>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="jumbotron text-center">
+					<h1>Web App</h1>
+				</div>
+			</div>
+
+			<c:if test="${erro != null}">
+
+				<span class="text-danger"> <c:out value="${erro}" />
+				</span>
+
+			</c:if>
+
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-4">
+				<form method="post" class="text-center">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">Usuário</span>
+						</div>
+						<input type="text" class="form-control" placeholder="Usuário"
+							aria-label="Usuário" aria-describedby="basic-addon1"
+							name="usuario">
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon2">Senha</span>
+						</div>
+						<input type="password" class="form-control" placeholder="Senha"
+							aria-label="Senha" aria-describedby="basic-addon2" name="senha">
+					</div>
+
+
+					<button type="submit" name="submit" class="btn btn-primary">Acessar</button>
+					<button type="reset" class="btn btn-warning">Reset</button>
+
+				</form>
+			</div>
+		</div>
 	</div>
-
-	<c:if test="${erro != null}">
-		<span class="text-danger">
-		 <c:out value="${erro}"></c:out>
-		</span>
-	</c:if>
-	<form method="post" class="text-center">
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1">Usuário</span>
-			</div>
-			<input type="text" class="form-control" placeholder="Usuário"
-				aria-label="Usuário" aria-describedby="basic-addon1" name="usuario">
-		</div>
-
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon2">Senha</span>
-			</div>
-			<input type="password" class="form-control" placeholder="Senha"
-				aria-label="Senha" aria-describedby="basic-addon2" name="senha">
-		</div>
-
-
-		<button type="submit" name="submit" class="btn btn-primary">Acessar</button>
-		<button type="reset" class="btn btn-warning">Reset</button>
-
-	</form>
-<c:import url="common/footer.jsp"></c:import>
+	<c:import url="common/footer.jsp" />
 </body>
 </html>
